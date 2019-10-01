@@ -1,0 +1,30 @@
+[
+    {
+        "origin": "Colorado, USA",
+        "destination": "Los Angeles, CA, USA",
+        "travelMode": "DRIVING",
+        "distance": "1,599 km",
+        "duration": "14 hours 57 mins"
+    },
+    {
+        "origin": "Colorado, USA",
+        "destination": "California, USA",
+        "travelMode": "WALKING",
+        "distance": "1,690 km",
+        "duration": "14 days 18 hours"
+    },
+    {
+        "origin": "Colorado, USA",
+        "destination": "New Orleans, LA, USA",
+        "travelMode": "WALKING",
+        "distance": "2,094 km",
+        "duration": "17 days 17 hours"
+    },
+    {
+        "origin": "Colorado, USA",
+        "destination": "Chicago, IL, USA",
+        "travelMode": "WALKING",
+        "distance": "1,717 km",
+        "duration": "14 days 15 hours"
+    }
+]
