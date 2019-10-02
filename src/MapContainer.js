@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
 import Trip from './Trip';
+import TripsTable from './TripsTable';
 const APIKEY = `${process.env.REACT_APP_API_KEY}`
 
 export class MapContainer extends Component {
@@ -125,18 +126,9 @@ export class MapContainer extends Component {
     ));
     return (
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Destination</th>
-              <th>Origin</th>
-              <th>Travel Mode</th>
-              <th>Distance</th>
-              <th>Duration</th>
-            </tr>
-          </thead>
-          <tbody>{trips || '...Trips loading'}</tbody>
-        </table>
+        <TripsTable
+          trips={trips}
+        />
         <form onSubmit={this.handleSubmit}>
           <h1>Origin</h1>
           <label>Enter Origin Address</label>
