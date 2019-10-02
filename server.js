@@ -1,47 +1,38 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const Trip = require('./Trip')
 
 const app = express();
 
-const DATA_FILE = path.join(__dirname, 'data.json');
-
-app.set('port', (process.env.PORT || 3001));
-
-app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
-  next();
-});
+const dbRoute = process.env.MONGODB_URI;
+mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true } );
+let db = mongoose.connection;
+db.once('open', () => console.log('connected to the database ^_^'))
+db.on('error', console.error.bind(console, 'MongoDB connection error.'))
 
-app.get('/api/trips', (req, res) => {
-  fs.readFile(DATA_FILE, (err, data) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.json(JSON.parse(data));
-  });
-});
+app.set('port', (process.env.PORT || 3001));
 
-app.post('/api/trips', (req, res) => {
-  fs.readFile(DATA_FILE, (err, data) => {
-    const trips = JSON.parse(data);
-    const newTrip = {
-      origin: req.body.origin,
-      destination: req.body.destination,
-      travelMode: req.body.travelMode,
-      distance: req.body.distance,
-      duration: req.body.duration
-    };
-    trips.push(newTrip);
-    fs.writeFile(DATA_FILE, JSON.stringify(trips, null, 4), () => {
-      res.setHeader('Cache-Control', 'no-cache');
+app.get('/api/trips', (req, res, next) => {
+  Trip.find({})
+    .then(function(trips){
       res.json(trips);
+    }, function(err){
+      next(err);
     });
+  });
+
+app.post('/api/trips', (req, res, next) => {
+  let newTrip = new Trip(req.body);
+  newTrip.save( (err, trip) => {
+    if(err) { return next(err);}
   });
 });
 

@@ -16,16 +16,6 @@ export class MapContainer extends Component {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.duration === nextState.duration ||
-      this.state.distance === nextState.distance) {
-        return false
-      }
-    else {
-        return true;
-      }
-  }
-
   createTrip(distance, duration, origin, destination) {
     const { travelMode } = this.state;
     const trip = {
@@ -57,8 +47,8 @@ export class MapContainer extends Component {
       },
       (res, status) => {
         if (status === 'OK') {
-          let distance = res.rows[0].elements[0].distance.text || null;
-          let duration = res.rows[0].elements[0].duration.text || null;
+          let distance = res.rows[0].elements[0].distance.text;
+          let duration = res.rows[0].elements[0].duration.text;
           let originAddress = res.originAddresses.toString();
           let destinationAddress = res.destinationAddresses.toString();
           this.setState({
@@ -126,7 +116,7 @@ export class MapContainer extends Component {
       <tr key={i}>
         <td>{trip.destination}</td>
         <td>{trip.origin}</td>
-        <td>{trip.travelMode}</td>
+        <td>{trip.travelMode === 'DRIVING' ? '🚗' : trip.travelMode === 'WALKING' ? '🚶🏻‍♂️' : trip.travelMode === 'TRANSIT' ? '🚎' : '🚲'}</td>
         <td>{trip.distance}</td>
         <td>{trip.duration}</td>
       </tr>
@@ -138,12 +128,12 @@ export class MapContainer extends Component {
             <tr>
               <th>Destination</th>
               <th>Origin</th>
-              <th>TravelMode</th>
+              <th>Travel Mode</th>
               <th>Distance</th>
               <th>Duration</th>
             </tr>
           </thead>
-          <tbody>{trips || 'loading'}</tbody>
+          <tbody>{trips || '...Trips loading'}</tbody>
         </table>
         <form onSubmit={this.handleSubmit}>
           <h1>Origin</h1>

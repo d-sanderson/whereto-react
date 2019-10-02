@@ -1,6 +1,6 @@
 import React from 'react';
 import MapContainer from './MapContainer'
-
+import './App.css'
 class App extends React.Component {
   constructor() {
     super();
@@ -11,14 +11,6 @@ class App extends React.Component {
   componentDidMount() {
     this.loadTripsFromServer();
     setInterval(this.loadTripsFromServer, 2000);
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    if(this.state.data === nextState.data) {
-      return false;
-    }
-    else {
-      return true;
-    }
   }
 
   componentWillUnmount() {
