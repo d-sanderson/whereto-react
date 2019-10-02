@@ -130,12 +130,22 @@ export class MapContainer extends Component {
         <TripsTable
           trips={trips}
         />
-        <Form
-          handleSubmit={this.handleSubmit}
-          handleOriginChange={this.handleOriginChange}
-          handleDestinationChange={this.handleDestinationChange}
-          travelModeButtons={travelModeButtons}
-        />
+        <form onSubmit={this.handleSubmit}>
+          <h1>Origin</h1>
+          <label>Enter Origin Address</label>
+          <input type="text" onChange={this.handleOriginChange} required/>
+
+          <h1>Destination</h1>
+          <label>Enter Destination Address</label>
+          <input type="text" onChange={this.handleDestinationChange} required/>
+
+          <h1>Travel Mode</h1>
+          <label>Select Mode of Transportation</label>
+          {travelModeButtons}
+          <div>
+            <input type="submit" value="submit" />
+          </div>
+        </form>
       </div>
     );
   }
