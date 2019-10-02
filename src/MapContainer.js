@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
+import Trip from './Trip';
 const APIKEY = `${process.env.REACT_APP_API_KEY}`
 
 export class MapContainer extends Component {
@@ -113,13 +114,14 @@ export class MapContainer extends Component {
     ));
 
     let trips = data.map((trip, i) => (
-      <tr key={i}>
-        <td>{trip.destination}</td>
-        <td>{trip.origin}</td>
-        <td>{trip.travelMode === 'DRIVING' ? '🚗' : trip.travelMode === 'WALKING' ? '🚶🏻‍♂️' : trip.travelMode === 'TRANSIT' ? '🚎' : '🚲'}</td>
-        <td>{trip.distance}</td>
-        <td>{trip.duration}</td>
-      </tr>
+        <Trip
+          key={i}
+          destination={trip.destination}
+          origin={trip.origin}
+          travelMode={trip.travelMode === 'DRIVING' ? '🚗' : trip.travelMode === 'WALKING' ? '🚶🏻‍♂️' : trip.travelMode === 'TRANSIT' ? '🚎' : '🚲'}
+          distance={trip.distance}
+          duration={trip.duration}
+        />
     ));
     return (
       <div>
