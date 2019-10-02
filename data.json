@@ -26,5 +26,26 @@
         "travelMode": "WALKING",
         "distance": "1,717 km",
         "duration": "14 days 15 hours"
+    },
+    {
+        "origin": "New Mexico, USA",
+        "destination": "New York, NY, USA",
+        "travelMode": "WALKING",
+        "distance": "3,164 km",
+        "duration": "26 days 23 hours"
+    },
+    {
+        "origin": "Chicago, IL, USA",
+        "destination": "Los Angeles, CA, USA",
+        "travelMode": "DRIVING",
+        "distance": "3,242 km",
+        "duration": "1 day 5 hours"
+    },
+    {
+        "origin": "New York, NY, USA",
+        "destination": "Mexico",
+        "travelMode": "DRIVING",
+        "distance": "3,868 km",
+        "duration": "1 day 14 hours"
     }
 ]

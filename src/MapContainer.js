@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
-const API_KEY = require('./secret').apiKey
+const APIKEY = `${process.env.REACT_APP_API_KEY}`
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -56,8 +57,8 @@ export class MapContainer extends Component {
       },
       (res, status) => {
         if (status === 'OK') {
-          let distance = res.rows[0].elements[0].distance.text;
-          let duration = res.rows[0].elements[0].duration.text;
+          let distance = res.rows[0].elements[0].distance.text || null;
+          let duration = res.rows[0].elements[0].duration.text || null;
           let originAddress = res.originAddresses.toString();
           let destinationAddress = res.destinationAddresses.toString();
           this.setState({
@@ -165,5 +166,5 @@ export class MapContainer extends Component {
   }
 }
 export default GoogleApiWrapper({
-  apiKey: API_KEY,
+  apiKey: APIKEY
 })(MapContainer);
