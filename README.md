@@ -1,4 +1,4 @@
-This application provides users with travel distance and duration data based on the input of an origin + destination location and a method of travel. Each trip query is saved to a database and rendered back to the user in a table.
+This application provides users with travel distance and duration data based their origin, destination, and method of travel. Each trip query is saved to a database and rendered back to the user's view so they are presented with a list of previosly searched locations.
 
 Built With:
 React- The web framework used.
