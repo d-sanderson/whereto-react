@@ -80,7 +80,7 @@ export class MapContainer extends Component {
   };
 
   handleChange = e => {
-    const { name, value } = e;
+    const { name, value } = e.target;
     if (name === 'travelMode') {
       e.preventDefault();
       this.setState({
