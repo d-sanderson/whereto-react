@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
-import Trip from './Trip';
 
+import Trip from './Trip';
 import TripsTable from './TripsTable';
+
 const APIKEY = `${process.env.REACT_APP_API_KEY}`;
 
 export class MapContainer extends Component {
@@ -19,7 +20,7 @@ export class MapContainer extends Component {
     };
   }
 
-  createTrip(origin, destination, distance, duration, ) {
+  createTrip(origin, destination, distance, duration) {
     const { travelMode } = this.state;
     const trip = {
       origin: origin,
