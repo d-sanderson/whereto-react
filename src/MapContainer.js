@@ -3,7 +3,7 @@ import { GoogleApiWrapper } from 'google-maps-react';
 import Trip from './Trip';
 
 import TripsTable from './TripsTable';
-const APIKEY = `${process.env.REACT_APP_API_KEY}`
+const APIKEY = `${process.env.REACT_APP_API_KEY}`;
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -56,7 +56,7 @@ export class MapContainer extends Component {
           let destinationAddress = res.destinationAddresses.toString();
           this.setState({
             distance: distance,
-            duration: duration
+            duration: duration,
           });
           this.createTrip(
             distance,
@@ -80,20 +80,21 @@ export class MapContainer extends Component {
   };
 
   handleChange = e => {
-  if(e.target.name === 'travelMode') {
-    e.preventDefault();
+    const { name, value } = e;
+    if (name === 'travelMode') {
+      e.preventDefault();
+      this.setState({
+        travelMode: value,
+      });
+    }
     this.setState({
-      travelMode: e.target.value,
+      [name]: value,
     });
-  }
-    this.setState({
-      [e.target.name] : e.target.value,
-    })
-  }
+  };
 
   render() {
     const { error } = this.state;
-    const { data } = this.props
+    const { data } = this.props;
     if (error) {
       return (
         <div>
@@ -103,43 +104,58 @@ export class MapContainer extends Component {
     }
 
     const travelModeButtons = this.state.options.map((option, i) => (
-      <button key={i} onClick={this.handleChange} value={option} name='travelMode'>
+      <button
+        key={i}
+        onClick={this.handleChange}
+        value={option}
+        name="travelMode"
+      >
         {option}
       </button>
     ));
 
     let trips = data.map((trip, i) => (
-        <Trip
-          key={i}
-          destination={trip.destination}
-          origin={trip.origin}
-          travelMode={trip.travelMode === 'DRIVING' ? '🚗' : trip.travelMode === 'WALKING' ? '🚶🏻‍♂️' : trip.travelMode === 'TRANSIT' ? '🚎' : '🚲'}
-          distance={trip.distance}
-          duration={trip.duration}
-        />
+      <Trip
+        key={i}
+        destination={trip.destination}
+        origin={trip.origin}
+        travelMode={
+          trip.travelMode === 'DRIVING'
+            ? '🚗'
+            : trip.travelMode === 'WALKING'
+            ? '🚶🏻‍♂️'
+            : trip.travelMode === 'TRANSIT'
+            ? '🚎'
+            : '🚲'
+        }
+        distance={trip.distance}
+        duration={trip.duration}
+      />
     ));
     return (
       <div>
-        <TripsTable
-          trips={trips}
-        />
+        <TripsTable trips={trips} />
 
         <form onSubmit={this.handleSubmit}>
           <h1>Origin</h1>
           <label>Enter Origin Address</label>
           <input
             type="text"
-            name='origin'
+            name="origin"
             value={this.state.origin}
-            onChange={this.handleChange} required/>
+            onChange={this.handleChange}
+            required
+          />
 
           <h1>Destination</h1>
           <label>Enter Destination Address</label>
           <input
             type="text"
-            name='destination'
+            name="destination"
             value={this.state.destination}
-            onChange={this.handleChange} required/>
+            onChange={this.handleChange}
+            required
+          />
 
           <h1>Travel Mode</h1>
           <label>Select Mode of Transportation</label>
@@ -153,5 +169,5 @@ export class MapContainer extends Component {
   }
 }
 export default GoogleApiWrapper({
-  apiKey: APIKEY
+  apiKey: APIKEY,
 })(MapContainer);
