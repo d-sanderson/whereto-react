@@ -28,6 +28,10 @@ export class MapContainer extends Component {
       distance: distance,
       duration: duration,
     };
+    this.postTrip(trip);
+  }
+
+  postTrip(trip) {
     return fetch('http://localhost:3001/api/trips', {
       method: 'post',
       body: JSON.stringify(trip),
@@ -35,9 +39,8 @@ export class MapContainer extends Component {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then(this.checkStatus);
+    }).then(this.props.checkStatus)
   }
-
   calculateDistance = () => {
     const { google } = this.props;
     const { origin, destination, travelMode } = this.state;
@@ -87,7 +90,7 @@ export class MapContainer extends Component {
   };
 
   render() {
-    const { error } = this.state;
+    const { error, options, origin, destination } = this.state;
     const { data } = this.props;
     if (error) {
       return (
@@ -97,7 +100,7 @@ export class MapContainer extends Component {
       );
     }
 
-    const travelModeButtons = this.state.options.map((option, i) => (
+    const travelModeButtons = options.map((option, i) => (
       <input
         type='button'
         key={i}
@@ -135,7 +138,7 @@ export class MapContainer extends Component {
           <input
             type="text"
             name="origin"
-            value={this.state.origin}
+            value={origin}
             onChange={this.handleChange}
             required
           />
@@ -145,7 +148,7 @@ export class MapContainer extends Component {
           <input
             type="text"
             name="destination"
-            value={this.state.destination}
+            value={destination}
             onChange={this.handleChange}
             required
           />

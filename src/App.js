@@ -55,7 +55,7 @@ class App extends React.Component {
   render() {
   return (
     <div className="App">
-      <MapContainer data={this.state.data}/>
+      <MapContainer data={this.state.data} checkStatus={this.props.checkStatus}/>
     </div>
   );
   }
