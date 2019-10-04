@@ -19,7 +19,7 @@ export class MapContainer extends Component {
     };
   }
 
-  createTrip(distance, duration, origin, destination) {
+  createTrip(origin, destination, distance, duration, ) {
     const { travelMode } = this.state;
     const trip = {
       origin: origin,
@@ -59,10 +59,10 @@ export class MapContainer extends Component {
             duration: duration,
           });
           this.createTrip(
-            distance,
-            duration,
             originAddress,
-            destinationAddress
+            destinationAddress,
+            distance,
+            duration
           );
         } else {
           console.log(status);
