@@ -80,17 +80,16 @@ export class MapContainer extends Component {
   };
 
   handleChange = e => {
-    this.setState({
-      [e.target.name] : e.target.value
-    })
-  }
-
-  handleTravelOptionChange = e => {
+  if(e.target.name === 'travelMode') {
     e.preventDefault();
     this.setState({
       travelMode: e.target.value,
     });
-  };
+  }
+    this.setState({
+      [e.target.name] : e.target.value,
+    })
+  }
 
   render() {
     const { error } = this.state;
@@ -104,7 +103,7 @@ export class MapContainer extends Component {
     }
 
     const travelModeButtons = this.state.options.map((option, i) => (
-      <button key={i} onClick={this.handleTravelOptionChange} value={option}>
+      <button key={i} onClick={this.handleChange} value={option} name='travelMode'>
         {option}
       </button>
     ));
