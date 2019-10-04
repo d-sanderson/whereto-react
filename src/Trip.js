@@ -9,7 +9,6 @@ const Trip = (props) => {
     <td>{props.distance}</td>
     <td>{props.duration}</td>
   </tr>
-
   )
 }
 export default Trip
