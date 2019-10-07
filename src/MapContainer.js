@@ -140,8 +140,14 @@ export class MapContainer extends Component {
     ));
     return (
       <>
-        <TripsTable trips={trips} />
-
+        <RouteDisplay
+          google={this.props.google}
+          destination={this.state.destination}
+          origin={this.state.origin}
+          submitted={this.state.submitted}
+          travelMode={this.state.travelMode}
+          zoom={14}
+        />
         <form onSubmit={this.handleSubmit}>
           <h1>Origin</h1>
           <label>Enter Origin Address</label>
@@ -170,15 +176,8 @@ export class MapContainer extends Component {
             <input type="submit" value="submit" />
           </div>
         </form>
+        <TripsTable trips={trips} />
 
-        <RouteDisplay
-          google={this.props.google}
-          destination={this.state.destination}
-          origin={this.state.origin}
-          submitted={this.state.submitted}
-          travelMode={this.state.travelMode}
-          zoom={14}
-        ></RouteDisplay>
       </>
     );
   }

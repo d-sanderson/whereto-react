@@ -1,5 +1,8 @@
 .App {
-  margin: 0px 25%;
-  background: purple;
+  display: flex;
+  flex-direction: column;
 }
 
+body {
+  background: papayawhip;
+}
