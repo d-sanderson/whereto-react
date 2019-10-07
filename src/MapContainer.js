@@ -172,12 +172,12 @@ export class MapContainer extends Component {
         </form>
 
         <RouteDisplay
-          centerAroundCurrentLocation
           google={this.props.google}
           destination={this.state.destination}
           origin={this.state.origin}
           submitted={this.state.submitted}
           travelMode={this.state.travelMode}
+          zoom={14}
         ></RouteDisplay>
       </>
     );
