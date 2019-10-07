@@ -41,7 +41,7 @@ export class MapContainer extends Component {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then(this.props.checkStatus)
+    }).then(this.props.checkStatus);
   }
 
   calculateDistance = () => {
@@ -83,10 +83,14 @@ export class MapContainer extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.calculateDistance();
-    this.setState({
-      submitted: true
-    })
+    this.toggleSubmit();
   };
+
+  toggleSubmit = () => {
+    this.setState({
+      submitted: !this.state.submitted,
+    });
+  }
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -94,7 +98,6 @@ export class MapContainer extends Component {
       [name]: value,
     });
   };
-
 
   render() {
     const { error, options, origin, destination } = this.state;
@@ -109,7 +112,7 @@ export class MapContainer extends Component {
 
     const travelModeButtons = options.map((option, i) => (
       <input
-        type='button'
+        type="button"
         key={i}
         onClick={this.handleChange}
         value={option}
@@ -137,7 +140,6 @@ export class MapContainer extends Component {
     ));
     return (
       <>
-
         <TripsTable trips={trips} />
 
         <form onSubmit={this.handleSubmit}>
@@ -170,15 +172,13 @@ export class MapContainer extends Component {
         </form>
 
         <RouteDisplay
-        centerAroundCurrentLocation
-        google={this.props.google}
-        destination={this.state.destination}
-        origin={this.state.origin}
-        submitted={this.state.submitted}
-        travelMode={this.state.travelMode}
-      >
-
-      </RouteDisplay>
+          centerAroundCurrentLocation
+          google={this.props.google}
+          destination={this.state.destination}
+          origin={this.state.origin}
+          submitted={this.state.submitted}
+          travelMode={this.state.travelMode}
+        ></RouteDisplay>
       </>
     );
   }

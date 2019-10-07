@@ -27,23 +27,21 @@ export class RouteDisplay extends Component {
     if (prevState.currentLocation !== this.state.currentLocation) {
       this.recenterMap();
     }
-    if(this.props.submitted !== prevProps.submitted) {
+    if (this.props.submitted !== prevProps.submitted) {
       this.loadRoute();
-      }
-
-
+    }
   }
 
-  componentDidMount()  {
-    if(this.props.centerAroundCurrentLocation) {
-      if(navigator && navigator.geolocation) {
+  componentDidMount() {
+    if (this.props.centerAroundCurrentLocation) {
+      if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const coords = pos.coords;
           this.setState({
             currentLocation: {
               lat: coords.latitude,
-              lng: coords.longitude
-            }
+              lng: coords.longitude,
+            },
           });
         });
       }
@@ -51,42 +49,43 @@ export class RouteDisplay extends Component {
   }
 
   loadRoute() {
-    if(this.props && this.props.google) {
+    if (this.props && this.props.google) {
       const { google } = this.props;
       const maps = google.maps;
-
-      const mapRef = this.refs.map;
-      const node = ReactDOM.findDOMNode(mapRef);
 
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
 
       directionsService.route(
         {
-          origin: {query: this.props.origin},
-          destination: {query: this.props.destination},
-          travelMode: this.props.travelMode
+          origin: { query: this.props.origin },
+          destination: { query: this.props.destination },
+          travelMode: this.props.travelMode,
         },
         function(response, status) {
           if (status === 'OK') {
             directionsRenderer.setDirections(response);
-            console.log(response)
+            console.log(response);
           } else {
             window.alert('Directions request failed due to ' + status);
           }
-        });
+        }
+      );
 
-        let { zoom } = this.props;
-      const { lat,lng } = this.state.currentLocation;
+      let { zoom } = this.props;
+      const { lat, lng } = this.state.currentLocation;
       const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
         {
           center: center,
-          zoom: zoom
+          zoom: zoom,
         }
       );
 
+      const mapRef = this.refs.map;
+      const node = ReactDOM.findDOMNode(mapRef);
+      
       this.map = new maps.Map(node, mapConfig);
       directionsRenderer.setMap(this.map);
     }
@@ -94,16 +93,16 @@ export class RouteDisplay extends Component {
 
   renderChildren() {
     const { children } = this.props;
-    if(!children) return;
+    if (!children) return;
 
     return React.Children.map(children, c => {
-      if(!c) return;
+      if (!c) return;
       return React.cloneElement(c, {
         map: this.map,
         google: this.props.google,
-        mapCenter: this.state.currentLocation
+        mapCenter: this.state.currentLocation,
       });
-    })
+    });
   }
 
   recenterMap() {
@@ -123,12 +122,12 @@ export class RouteDisplay extends Component {
     const style = Object.assign({}, mapStyles.map);
     return (
       <div>
-        <div style={style} ref='map'>
+        <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
         {this.renderChildren()}
       </div>
-    )
+    );
   }
 }
 
