@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { GoogleApiWrapper } from 'google-maps-react';
+import React, { Component, Fragment } from 'react';
+import { GoogleApiWrapper, Map, Polyline } from 'google-maps-react';
 
 import Trip from './Trip';
 import TripsTable from './TripsTable';
-
+import RouteDisplay from './RouteDisplay';
 const APIKEY = `${process.env.REACT_APP_API_KEY}`;
 
 export class MapContainer extends Component {
@@ -17,6 +17,7 @@ export class MapContainer extends Component {
       duration: null,
       options: ['DRIVING', 'WALKING', 'TRANSIT', 'BICYCLING'],
       error: false,
+      submitted: false,
     };
   }
 
@@ -42,6 +43,7 @@ export class MapContainer extends Component {
       },
     }).then(this.props.checkStatus)
   }
+
   calculateDistance = () => {
     const { google } = this.props;
     const { origin, destination, travelMode } = this.state;
@@ -81,6 +83,9 @@ export class MapContainer extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.calculateDistance();
+    this.setState({
+      submitted: true
+    })
   };
 
   handleChange = e => {
@@ -89,6 +94,7 @@ export class MapContainer extends Component {
       [name]: value,
     });
   };
+
 
   render() {
     const { error, options, origin, destination } = this.state;
@@ -130,7 +136,8 @@ export class MapContainer extends Component {
       />
     ));
     return (
-      <div>
+      <>
+
         <TripsTable trips={trips} />
 
         <form onSubmit={this.handleSubmit}>
@@ -161,7 +168,18 @@ export class MapContainer extends Component {
             <input type="submit" value="submit" />
           </div>
         </form>
-      </div>
+
+        <RouteDisplay
+        centerAroundCurrentLocation
+        google={this.props.google}
+        destination={this.state.destination}
+        origin={this.state.origin}
+        submitted={this.state.submitted}
+        travelMode={this.state.travelMode}
+      >
+
+      </RouteDisplay>
+      </>
     );
   }
 }
