@@ -1,4 +1,21 @@
-
-body {
-  background: papayawhip;
+html {
+  font-family: Karla, sans-serif
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  width: 100%;
+  font-family: Lexend Deca, 'Times New Roman', Times, serif
+}
+
+input[type='submit'] {
+  color: white;
+  background-color: green;
+
+}
+

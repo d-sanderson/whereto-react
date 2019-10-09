@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { GoogleApiWrapper, Map, Polyline } from 'google-maps-react';
+import React, { Component} from 'react';
+import { GoogleApiWrapper} from 'google-maps-react';
 
 import Trip from './Trip';
 import TripsTable from './TripsTable';
@@ -139,18 +139,21 @@ export class MapContainer extends Component {
       />
     ));
     return (
-      <>
+      <div className='container'>
         <RouteDisplay
           google={this.props.google}
           destination={this.state.destination}
           origin={this.state.origin}
           submitted={this.state.submitted}
           travelMode={this.state.travelMode}
+          distance={this.state.distance}
+          duration={this.state.duration}
           zoom={14}
-        />
-        <form onSubmit={this.handleSubmit}>
+        ></RouteDisplay>
+
+        <form className='form' onSubmit={this.handleSubmit}>
           <h1>Origin</h1>
-          <label>Enter Origin Address</label>
+          <label>Enter an Origin Address: </label>
           <input
             type="text"
             name="origin"
@@ -160,7 +163,7 @@ export class MapContainer extends Component {
           />
 
           <h1>Destination</h1>
-          <label>Enter Destination Address</label>
+          <label>Enter a Destination Address: </label>
           <input
             type="text"
             name="destination"
@@ -173,12 +176,12 @@ export class MapContainer extends Component {
           <label>Select Mode of Transportation</label>
           {travelModeButtons}
           <div>
-            <input type="submit" value="submit" />
+            <input type="submit" value="Submit" />
           </div>
         </form>
         <TripsTable trips={trips} />
 
-      </>
+      </div>
     );
   }
 }

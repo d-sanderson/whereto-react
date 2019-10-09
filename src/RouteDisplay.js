@@ -1,13 +1,11 @@
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 const mapStyles = {
   map: {
-    position: 'absolute',
-    margin: '0 0 0 45%',
     border: '1px solid black',
-    width: '50%',
-    height: '50%',
+    width: '500px',
+    height: '300px',
     zIndex: '-1'
   },
 };
@@ -65,9 +63,18 @@ export class RouteDisplay extends Component {
   render() {
     const style = Object.assign({}, mapStyles.map);
     return (
+      <div>
+        <h1>Trip Calculator</h1>
         <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
+        <h1>
+          {this.props.distance}
+        </h1>
+        <h1>
+          {this.props.duration}
+        </h1>
+      </div>
     );
   }
 }
@@ -81,3 +88,4 @@ RouteDisplay.defaultProps = {
   },
   visible: true,
 };
+
