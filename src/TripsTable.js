@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const TripsTable = (props) => {
-  return (
-    <table>
+const TripsTable = props => {
+  const [open, setOpen] = useState(false);
+  if (open) {
+    return (
+      <div>
+        <table>
           <thead>
             <tr>
               <th>Destination</th>
@@ -14,9 +17,17 @@ const TripsTable = (props) => {
           </thead>
           <tbody>{props.trips || '...Trips loading'}</tbody>
         </table>
-
-  )
-}
-export default TripsTable
-
-
+        <div>
+          <input type="button" value="-" onClick={() => setOpen(!open)} />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <input type="button" value="+" onClick={() => setOpen(!open)} />
+      </div>
+    );
+  }
+};
+export default TripsTable;
