@@ -18,14 +18,22 @@ const TripsTable = props => {
           <tbody>{props.trips || '...Trips loading'}</tbody>
         </table>
         <div>
-          <input type="button" value="-" onClick={() => setOpen(!open)} />
+          <input
+            type="button"
+            value="-"
+            onClick={() => setOpen(!open)}
+          />
         </div>
       </div>
     );
   } else {
     return (
       <div>
-        <input type="button" value="+" onClick={() => setOpen(!open)} />
+        <input
+          type="button"
+          value="+"
+          onClick={() => setOpen(!open)}
+        />
       </div>
     );
   }
