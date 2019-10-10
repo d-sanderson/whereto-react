@@ -153,7 +153,7 @@ export class MapContainer extends Component {
           zoom={14}
         ></RouteDisplay>
 
-        <form className='form' onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <h2>Origin</h2>
           <label>Enter an Origin Address:</label>
           <input

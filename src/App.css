@@ -16,6 +16,7 @@ input[type='submit'] {
   color: white;
   background-color: #337ab7;
   border-color: #2e6da4;
+  height: 50px;
 }
 
 .travel-mode {
@@ -35,10 +36,12 @@ input[type='submit'] {
   overflow: scroll;
 }
 
-.toggle-container {
-  width: 350px;
+
+.toggle-container, form {
+  width: 500px;
 }
 
 input {
   margin: 2px 0;
+  height: 30px;
 }
