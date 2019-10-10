@@ -112,6 +112,7 @@ export class MapContainer extends Component {
 
     const travelModeButtons = options.map((option, i) => (
       <input
+        className='travel-mode'
         type="button"
         key={i}
         onClick={this.handleChange}
@@ -152,8 +153,8 @@ export class MapContainer extends Component {
         ></RouteDisplay>
 
         <form className='form' onSubmit={this.handleSubmit}>
-          <h1>Origin</h1>
-          <label>Enter an Origin Address: </label>
+          <h2>Origin</h2>
+          <label>Enter an Origin Address:</label>
           <input
             type="text"
             name="origin"
@@ -162,8 +163,8 @@ export class MapContainer extends Component {
             required
           />
 
-          <h1>Destination</h1>
-          <label>Enter a Destination Address: </label>
+          <h2>Destination</h2>
+          <label>Enter a Destination Address:</label>
           <input
             type="text"
             name="destination"
@@ -172,11 +173,11 @@ export class MapContainer extends Component {
             required
           />
 
-          <h1>Travel Mode</h1>
-          <label>Select Mode of Transportation</label>
+          <h2>Travel Mode</h2>
+          <div><label>Select Mode of Transportation:</label></div>
           {travelModeButtons}
           <div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value=" 💾 Submit" />
           </div>
         </form>
         <TripsTable trips={trips} />

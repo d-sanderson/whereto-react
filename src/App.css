@@ -15,7 +15,28 @@ input {
 
 input[type='submit'] {
   color: white;
-  background-color: green;
-
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 
+.travel-mode {
+  width: 25%;
+}
+
+.toggle {
+  color: #fff;
+  width: 100%;
+  background-color: red;
+}
+table {
+  overflow: scroll;
+  width: 600px;
+}
+
+.toggle-container {
+  width: 350px;
+}
+
+input {
+  margin: 2px 0;
+}

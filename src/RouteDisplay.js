@@ -64,7 +64,6 @@ export class RouteDisplay extends Component {
     const style = Object.assign({}, mapStyles.map);
     return (
       <div>
-        <h1>Trip Calculator</h1>
         <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
