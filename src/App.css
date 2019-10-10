@@ -27,9 +27,12 @@ input[type='submit'] {
   width: 100%;
   background-color: red;
 }
-table {
-  overflow: scroll;
+.trips-table {
   width: 600px;
+  height:30vh;
+  font-size: 1.2rem;
+  background-color: #DDD;
+  overflow: scroll;
 }
 
 .toggle-container {

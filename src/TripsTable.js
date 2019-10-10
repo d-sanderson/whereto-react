@@ -4,7 +4,7 @@ const TripsTable = props => {
   const [open, setOpen] = useState(false);
   if (open) {
     return (
-      <div className='trips-table'>
+      <div>
         <div>
           <input
             type="button"
@@ -13,6 +13,7 @@ const TripsTable = props => {
             onClick={() => setOpen(!open)}
           />
         </div>
+        <div className='trips-table'>
         <table>
           <thead>
             <tr>
@@ -25,6 +26,7 @@ const TripsTable = props => {
           </thead>
           <tbody>{props.trips || '...Trips loading'}</tbody>
         </table>
+        </div>
       </div>
     );
   } else {
