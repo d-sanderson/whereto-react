@@ -1,5 +1,6 @@
 html {
-  font-family: Karla, sans-serif
+  font-family: Karla, sans-serif;
+  background-color: #F0F8FF;
 }
 .container {
   display: flex;

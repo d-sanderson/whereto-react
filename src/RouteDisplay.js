@@ -22,7 +22,7 @@ export class RouteDisplay extends Component {
 
   loadRoute() {
     if (this.props && this.props.google) {
-      const { google } = this.props;
+      const { google, origin, destination, travelMode } = this.props;
       const maps = google.maps;
 
       const directionsService = new google.maps.DirectionsService();
@@ -30,9 +30,9 @@ export class RouteDisplay extends Component {
 
       directionsService.route(
         {
-          origin: { query: this.props.origin },
-          destination: { query: this.props.destination },
-          travelMode: this.props.travelMode,
+          origin: { query: origin },
+          destination: { query: destination },
+          travelMode: travelMode,
         },
         (response, status) => {
           status === 'OK'
@@ -62,16 +62,17 @@ export class RouteDisplay extends Component {
 
   render() {
     const style = Object.assign({}, mapStyles.map);
+    const { distance, duration } = this.props;
     return (
       <div>
         <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
         <h1>
-          {this.props.distance}
+          {distance}
         </h1>
         <h1>
-          {this.props.duration}
+          {duration}
         </h1>
       </div>
     );

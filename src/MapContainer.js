@@ -100,7 +100,7 @@ export class MapContainer extends Component {
   };
 
   render() {
-    const { error, options, origin, destination } = this.state;
+    const { error, options, origin, destination, distance, duration, travelMode, submitted } = this.state;
     const { data } = this.props;
     if (error) {
       return (
@@ -144,16 +144,16 @@ export class MapContainer extends Component {
       <div className='container'>
         <RouteDisplay
           google={this.props.google}
-          destination={this.state.destination}
-          origin={this.state.origin}
-          submitted={this.state.submitted}
-          travelMode={this.state.travelMode}
-          distance={this.state.distance}
-          duration={this.state.duration}
+          destination={destination}
+          origin={origin}
+          submitted={submitted}
+          travelMode={travelMode}
+          distance={distance}
+          duration={duration}
           zoom={14}
         ></RouteDisplay>
 
-        <form onSubmit={this.handleSubmit}>
+        <form className='form' onSubmit={this.handleSubmit}>
           <h2>Origin</h2>
           <label>Enter an Origin Address:</label>
           <input
