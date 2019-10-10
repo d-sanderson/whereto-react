@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import CountUp from 'react-countup';
 const mapStyles = {
   map: {
     border: '1px solid black',
@@ -11,6 +12,12 @@ const mapStyles = {
 };
 
 export class RouteDisplay extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      miles: false,
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
@@ -62,18 +69,36 @@ export class RouteDisplay extends Component {
 
   render() {
     const style = Object.assign({}, mapStyles.map);
-    const { distance, duration } = this.props;
+    const { distance, duration, submitted, travelMode, handleTravelMode } = this.props;
+    const { miles } = this.state;
     return (
       <div>
         <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
-        <h1>
-          {distance}
-        </h1>
-        <h1>
-          {duration}
-        </h1>
+        {submitted ?
+        <div>
+          {handleTravelMode(travelMode)}
+
+         {!miles ?
+            <div>
+              <CountUp end={distance} /> <span>km</span>
+            </div>:
+            <div>
+              <CountUp end={distance * 0.621371} /> <span>mi</span>
+            </div>}
+
+          <input
+            className='convert-btn'
+            type='button'
+            value={miles ? '>>KM' : '>>MI'}
+            onClick={()=>this.setState({
+              miles: !miles
+            })}
+          />
+          <h4>⏱ {duration}</h4>
+        </div>: ''
+          }
       </div>
     );
   }
@@ -87,5 +112,7 @@ RouteDisplay.defaultProps = {
     lng: -106.6504,
   },
   visible: true,
+  distance: 0,
+  duration: 0
 };
 

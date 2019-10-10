@@ -9,6 +9,7 @@
     "mongoose": "^5.7.3",
     "nodemon": "^1.19.3",
     "react": "^16.10.1",
+    "react-countup": "^4.2.2",
     "react-dom": "^16.10.1",
     "react-scripts": "3.1.2"
   },

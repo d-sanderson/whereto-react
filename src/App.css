@@ -8,6 +8,9 @@ html {
   align-items: center;
 }
 
+.convert-btn {
+  width: 50px;
+}
 input {
   width: 100%;
   font-family: Lexend Deca, 'Times New Roman', Times, serif
@@ -25,16 +28,25 @@ input[type='submit'] {
 }
 
 .toggle {
+  margin: 2% 0 0 0;
   color: #fff;
   width: 100%;
   background-color: red;
 }
-.trips-table {
-  width: 600px;
-  height:30vh;
-  font-size: 1.2rem;
-  background-color: #DDD;
-  overflow: scroll;
+
+
+table thead tr{
+  display:block;
+}
+
+table th,table td{
+  width:100px;
+}
+table  tbody{
+margin: 2% 0;
+display:block;
+height:200px;
+overflow:auto;
 }
 
 

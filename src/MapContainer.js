@@ -14,6 +14,7 @@ export class MapContainer extends Component {
       destination: '',
       travelMode: 'DRIVING',
       distance: null,
+      distanceNum: 0,
       duration: null,
       options: ['DRIVING', 'WALKING', 'TRANSIT', 'BICYCLING'],
       error: false,
@@ -57,11 +58,13 @@ export class MapContainer extends Component {
       (res, status) => {
         if (status === 'OK') {
           let distance = res.rows[0].elements[0].distance.text;
+          let distanceNum = res.rows[0].elements[0].distance.value / 1000;
           let duration = res.rows[0].elements[0].duration.text;
           let originAddress = res.originAddresses.toString();
           let destinationAddress = res.destinationAddresses.toString();
           this.setState({
             distance: distance,
+            distanceNum: distanceNum,
             duration: duration,
           });
           this.createTrip(
@@ -71,7 +74,6 @@ export class MapContainer extends Component {
             duration
           );
         } else {
-          console.log(status);
           this.setState({
             error: true,
           });
@@ -99,8 +101,18 @@ export class MapContainer extends Component {
     });
   };
 
+  handleTravelMode = (travelMode) => {
+    return travelMode === 'DRIVING'
+            ? '🚗'
+            : travelMode === 'WALKING'
+            ? '🚶🏻‍♂️'
+            : travelMode === 'TRANSIT'
+            ? '🚎'
+            : '🚲'
+  }
+
   render() {
-    const { error, options, origin, destination, distance, duration, travelMode, submitted } = this.state;
+    const { error, options, origin, destination, distanceNum, duration, travelMode, submitted } = this.state;
     const { data } = this.props;
     if (error) {
       return (
@@ -127,15 +139,7 @@ export class MapContainer extends Component {
         key={i}
         destination={trip.destination}
         origin={trip.origin}
-        travelMode={
-          trip.travelMode === 'DRIVING'
-            ? '🚗'
-            : trip.travelMode === 'WALKING'
-            ? '🚶🏻‍♂️'
-            : trip.travelMode === 'TRANSIT'
-            ? '🚎'
-            : '🚲'
-        }
+        travelMode={this.handleTravelMode(trip.travelMode)}
         distance={trip.distance}
         duration={trip.duration}
       />
@@ -148,9 +152,10 @@ export class MapContainer extends Component {
           origin={origin}
           submitted={submitted}
           travelMode={travelMode}
-          distance={distance}
+          distance={distanceNum}
           duration={duration}
           zoom={14}
+          handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
 
         <form className='form' onSubmit={this.handleSubmit}>
