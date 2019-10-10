@@ -20,7 +20,7 @@ class App extends React.Component {
   loadTripsFromServer = () => {
     this.getTrips(data =>
       this.setState({
-        data: data,
+        data: data.reverse(),
       })
     );
   };

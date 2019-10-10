@@ -122,6 +122,7 @@ export class MapContainer extends Component {
     ));
 
     let trips = data.map((trip, i) => (
+
       <Trip
         key={i}
         destination={trip.destination}
