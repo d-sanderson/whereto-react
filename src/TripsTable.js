@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
+import Trip from './Trip';
 
 const TripsTable = props => {
   const [open, setOpen] = useState(false);
+
+  const trips = props.data.map((trip, i) => (
+    <Trip
+      key={i}
+      destination={trip.destination}
+      origin={trip.origin}
+      travelMode={this.handleTravelMode(trip.travelMode)}
+      distance={trip.distance}
+      duration={trip.duration}
+    />
+  ));
+  
   if (open) {
     return (
       <div>
@@ -24,7 +37,7 @@ const TripsTable = props => {
               <th>Duration</th>
             </tr>
           </thead>
-          <tbody>{props.trips || '...Trips loading'}</tbody>
+          <tbody>{trips || '...Trips loading'}</tbody>
         </table>
         </div>
       </div>

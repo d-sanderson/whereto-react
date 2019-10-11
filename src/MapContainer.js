@@ -133,17 +133,6 @@ export class MapContainer extends Component {
       />
     ));
 
-    let trips = data.map((trip, i) => (
-
-      <Trip
-        key={i}
-        destination={trip.destination}
-        origin={trip.origin}
-        travelMode={this.handleTravelMode(trip.travelMode)}
-        distance={trip.distance}
-        duration={trip.duration}
-      />
-    ));
     return (
       <div className='container'>
         <RouteDisplay
@@ -157,7 +146,7 @@ export class MapContainer extends Component {
           zoom={14}
           handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
-        <TripsTable trips={trips} />
+        <TripsTable data={data}/>
 
         <form className='form' onSubmit={this.handleSubmit}>
           <h2>Origin</h2>

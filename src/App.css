@@ -29,6 +29,7 @@ input[type='submit'] {
 
 .dashboard {
   display: flex;
+  font-size: 1.15rem;
   align-items: center;
   justify-content: space-around;
 }
