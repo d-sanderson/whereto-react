@@ -56,6 +56,9 @@ export class MapContainer extends Component {
       },
       (res, status) => {
         if (status === 'OK') {
+          let statCheck = res.rows[0].elements[0].status
+          console.log(statCheck)
+          if(statCheck === 'ZERO_RESULTS') return;
           let distance = res.rows[0].elements[0].distance.text;
           let distanceNum = res.rows[0].elements[0].distance.value / 1000;
           let duration = res.rows[0].elements[0].duration.text;
