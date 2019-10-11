@@ -146,7 +146,7 @@ export class MapContainer extends Component {
           zoom={14}
           handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
-        <TripsTable data={data}/>
+        <TripsTable data={data} handleTravelMode={this.handleTravelMode}/>
 
         <form className='form' onSubmit={this.handleSubmit}>
           <h2>Origin</h2>

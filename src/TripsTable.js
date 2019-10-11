@@ -9,12 +9,12 @@ const TripsTable = props => {
       key={i}
       destination={trip.destination}
       origin={trip.origin}
-      travelMode={this.handleTravelMode(trip.travelMode)}
+      travelMode={props.handleTravelMode(trip.travelMode)}
       distance={trip.distance}
       duration={trip.duration}
     />
   ));
-  
+
   if (open) {
     return (
       <div>
