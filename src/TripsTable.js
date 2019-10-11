@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import Trip from './Trip';
 
-const TripsTable = props => {
+const TripsTable = ({data, handleTravelMode}) => {
   const [open, setOpen] = useState(false);
 
-  const trips = props.data.map((trip, i) => (
+  const trips = data.map((trip, i) => (
     <Trip
       key={i}
       destination={trip.destination}
       origin={trip.origin}
-      travelMode={props.handleTravelMode(trip.travelMode)}
+      travelMode={handleTravelMode(trip.travelMode)}
       distance={trip.distance}
       duration={trip.duration}
     />
