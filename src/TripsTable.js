@@ -17,8 +17,8 @@ const TripsTable = props => {
         <table>
           <thead>
             <tr>
-              <th>Destination</th>
               <th>Origin</th>
+              <th>Destination</th>
               <th>Travel Mode</th>
               <th>Distance</th>
               <th>Duration</th>
