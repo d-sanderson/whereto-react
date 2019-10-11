@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import { GoogleApiWrapper} from 'google-maps-react';
 
-import Trip from './Trip';
 import TripsTable from './TripsTable';
 import RouteDisplay from './RouteDisplay';
 const APIKEY = `${process.env.REACT_APP_API_KEY}`;
