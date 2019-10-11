@@ -77,7 +77,7 @@ export class RouteDisplay extends Component {
           Enter an Origin and Destination.
         </div>
         {submitted ?
-        <div>
+        <div className='dashboard'>
           {handleTravelMode(travelMode)}
 
          {!miles ?

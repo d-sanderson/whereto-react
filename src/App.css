@@ -27,6 +27,12 @@ input[type='submit'] {
   width: 25%;
 }
 
+.dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .toggle {
   margin: 2% 0 0 0;
   color: #fff;

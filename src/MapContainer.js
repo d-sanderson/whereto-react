@@ -157,6 +157,7 @@ export class MapContainer extends Component {
           zoom={14}
           handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
+        <TripsTable trips={trips} />
 
         <form className='form' onSubmit={this.handleSubmit}>
           <h2>Origin</h2>
@@ -186,7 +187,7 @@ export class MapContainer extends Component {
             <input type="submit" value=" 💾 Submit" />
           </div>
         </form>
-        <TripsTable trips={trips} />
+
 
       </div>
     );
