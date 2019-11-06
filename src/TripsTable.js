@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Trip from './Trip';
 
-const TripsTable = ({data, handleTravelMode}) => {
+const TripsTable = ({data, handleTravelMode, updateOrigin}) => {
   const [open, setOpen] = useState(false);
 
   const trips = data.map((trip, i) => (
@@ -12,6 +12,7 @@ const TripsTable = ({data, handleTravelMode}) => {
       travelMode={handleTravelMode(trip.travelMode)}
       distance={trip.distance}
       duration={trip.duration}
+      updateOrigin={updateOrigin}
     />
   ));
 

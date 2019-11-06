@@ -19,8 +19,8 @@ export class RouteDisplay extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.google !== this.props.google) {
-      this.loadMap();
+    if (prevProps.google !== this.props.google || prevProps.origin !== this.props.origin || prevProps.destination !== this.props.destination) {
+      this.loadRoute();
     }
     if (this.props.submitted !== prevProps.submitted) {
       this.loadRoute();
@@ -44,7 +44,7 @@ export class RouteDisplay extends Component {
         (response, status) => {
           status === 'OK'
             ? directionsRenderer.setDirections(response)
-            : window.alert('Directions request failed due to ' + status);
+            : window.alert('Directions request failed due to ' + status + '. Record not saved, try again.');
         }
       );
 

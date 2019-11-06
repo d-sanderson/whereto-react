@@ -2,7 +2,9 @@ import React from 'react';
 
 const Trip = (props) => {
   return (
-  <tr key={props.i}>
+  <tr
+  onClick={() => props.updateOrigin(props.origin, props.destination)}
+  key={props.i}>
     <td>{props.origin}</td>
     <td>{props.destination}</td>
     <td>{props.travelMode}</td>

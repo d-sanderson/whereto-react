@@ -58,7 +58,7 @@ export class MapContainer extends Component {
         if (status === 'OK') {
           let statCheck = res.rows[0].elements[0].status
           console.log(statCheck)
-          if(statCheck === 'ZERO_RESULTS') return;
+          if(statCheck === 'ZERO_RESULTS') return
           let distance = res.rows[0].elements[0].distance.text;
           let distanceNum = res.rows[0].elements[0].distance.value / 1000;
           let duration = res.rows[0].elements[0].duration.text;
@@ -83,6 +83,14 @@ export class MapContainer extends Component {
       }
     );
   };
+
+  updateOrigin = (origin, destination) => {
+    console.log(origin, destination)
+    this.setState({
+      origin: origin,
+      destination: destination,
+    })
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -148,7 +156,11 @@ export class MapContainer extends Component {
           zoom={14}
           handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
-        <TripsTable data={data} handleTravelMode={this.handleTravelMode}/>
+        <TripsTable
+        data={data}
+        handleTravelMode={this.handleTravelMode}
+        updateOrigin={this.updateOrigin}
+        />
 
         <form className='form' onSubmit={this.handleSubmit}>
           <h2>Origin</h2>
