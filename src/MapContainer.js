@@ -85,8 +85,8 @@ export class MapContainer extends Component {
   };
 
   updateOrigin = (origin, destination) => {
-    console.log(origin, destination)
     this.setState({
+      submitted: !this.state.submitted,
       origin: origin,
       destination: destination,
     })

@@ -19,9 +19,6 @@ export class RouteDisplay extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.google !== this.props.google || prevProps.origin !== this.props.origin || prevProps.destination !== this.props.destination) {
-      this.loadRoute();
-    }
     if (this.props.submitted !== prevProps.submitted) {
       this.loadRoute();
     }
