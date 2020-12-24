@@ -1,21 +1,211 @@
-import React, { Component} from 'react';
-import { GoogleApiWrapper} from 'google-maps-react';
+import React, { Component } from "react";
+import { GoogleApiWrapper } from "google-maps-react";
 
-import TripsTable from './TripsTable';
-import RouteDisplay from './RouteDisplay';
+import TripsTable from "./TripsTable";
+import RouteDisplay from "./RouteDisplay";
 const APIKEY = `${process.env.REACT_APP_API_KEY}`;
+
+const MapContainer2 = (props) => {
+  let [derp, setDerp] = React.useState({
+    origin: "",
+    destination: "",
+    travelMode: "DRIVING",
+    distance: null,
+    distanceNum: 0,
+    duration: null,
+    options: ["DRIVING", "WALKING", "TRANSIT", "BICYCLING"],
+    error: false,
+    submitted: false,
+  });
+  const createTrip = (origin, destination, distance, duration) => {
+    const { travelMode } = derp;
+    const trip = {
+      origin: origin,
+      destination: destination,
+      travelMode: travelMode,
+      distance: distance,
+      duration: duration,
+    };
+    postTrip(trip);
+  };
+
+  const postTrip = (trip) => {
+    return fetch("http://localhost:3001/api/trips", {
+      method: "post",
+      body: JSON.stringify(trip),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then(props.checkStatus);
+  };
+  const calculateDistance = () => {
+    const { google } = props;
+    const { origin, destination, travelMode } = derp;
+    const service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: travelMode,
+      },
+      (res, status) => {
+        let statCheck = res.rows[0].elements[0].status;
+        if (statCheck === "ZERO_RESULTS") return;
+        if (status === "OK") {
+          console.log(statCheck);
+          let distance = res.rows[0].elements[0].distance.text;
+          let distanceNum = res.rows[0].elements[0].distance.value / 1000;
+          let duration = res.rows[0].elements[0].duration.text;
+          let originAddress = res.originAddresses.toString();
+          let destinationAddress = res.destinationAddresses.toString();
+          setDerp((prevState) => {
+            return {
+              ...prevState,
+              distance: distance,
+              distanceNum: distanceNum,
+              duration: duration,
+            };
+          });
+          createTrip(originAddress, destinationAddress, distance, duration);
+        } else {
+          setDerp({
+            error: true,
+          });
+        }
+      }
+    );
+  };
+
+  const updateOrigin = (origin, destination) => {
+    setDerp({
+      submitted: !derp.submitted,
+      origin: origin,
+      destination: destination,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    calculateDistance();
+    toggleSubmit();
+  };
+
+  const toggleSubmit = () => {
+    setDerp({
+      submitted: !derp.submitted,
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDerp((prevState) => {
+      return { ...derp, [name]: value };
+    });
+  };
+
+  const handleTravelMode = (travelMode) => {
+    return travelMode === "DRIVING"
+      ? "🚗"
+      : travelMode === "WALKING"
+      ? "🚶🏻‍♂️"
+      : travelMode === "TRANSIT"
+      ? "🚎"
+      : "🚲";
+  };
+  const {
+    error,
+    options,
+    origin,
+    destination,
+    distanceNum,
+    duration,
+    travelMode,
+    submitted,
+  } = derp;
+  if (error) {
+    return (
+      <div>
+        <h1>Error Communicating with the server</h1>
+      </div>
+    );
+  }
+
+  // const travelModeButtons = options.map((option, i) => (
+  //   <input
+  //     className="travel-mode"
+  //     type="button"
+  //     key={i}
+  //     onClick={handleChange}
+  //     value={option}
+  //     name="travelMode"
+  //   />
+  // ));
+  return (
+    <div className="container">
+      <RouteDisplay
+        google={props.google}
+        destination={destination}
+        origin={origin}
+        submitted={submitted}
+        travelMode={travelMode}
+        distance={distanceNum}
+        duration={duration}
+        zoom={14}
+        handleTravelMode={handleTravelMode}
+      ></RouteDisplay>
+      <TripsTable
+        handleTravelMode={handleTravelMode}
+        updateOrigin={updateOrigin}
+      />
+
+      <form className="form" onSubmit={handleSubmit}>
+        <h2>Origin</h2>
+        <label>Enter an Origin Address:</label>
+        <input
+          type="text"
+          name="origin"
+          value={origin}
+          onChange={handleChange}
+          required
+        />
+
+        <h2>Destination</h2>
+        <label>Enter a Destination Address:</label>
+        <input
+          type="text"
+          name="destination"
+          value={destination}
+          onChange={handleChange}
+          required
+        />
+
+        <h2>Travel Mode</h2>
+        <div>
+          <label>Select Mode of Transportation:</label>
+        </div>
+        {/* {travelModeButtons} */}
+        <div>
+          <input type="submit" value=" 💾 Submit" />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+
 
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      origin: '',
-      destination: '',
-      travelMode: 'DRIVING',
+      origin: "",
+      destination: "",
+      travelMode: "DRIVING",
       distance: null,
       distanceNum: 0,
       duration: null,
-      options: ['DRIVING', 'WALKING', 'TRANSIT', 'BICYCLING'],
+      options: ["DRIVING", "WALKING", "TRANSIT", "BICYCLING"],
       error: false,
       submitted: false,
     };
@@ -34,12 +224,12 @@ export class MapContainer extends Component {
   }
 
   postTrip(trip) {
-    return fetch('http://localhost:3001/api/trips', {
-      method: 'post',
+    return fetch("http://localhost:3001/api/trips", {
+      method: "post",
       body: JSON.stringify(trip),
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     }).then(this.props.checkStatus);
   }
@@ -55,10 +245,10 @@ export class MapContainer extends Component {
         travelMode: travelMode,
       },
       (res, status) => {
-        if (status === 'OK') {
-          let statCheck = res.rows[0].elements[0].status
-          console.log(statCheck)
-          if(statCheck === 'ZERO_RESULTS') return
+        let statCheck = res.rows[0].elements[0].status;
+        if (statCheck === "ZERO_RESULTS") return;
+        if (status === "OK") {
+          console.log(statCheck);
           let distance = res.rows[0].elements[0].distance.text;
           let distanceNum = res.rows[0].elements[0].distance.value / 1000;
           let duration = res.rows[0].elements[0].duration.text;
@@ -89,10 +279,10 @@ export class MapContainer extends Component {
       submitted: !this.state.submitted,
       origin: origin,
       destination: destination,
-    })
-  }
+    });
+  };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.calculateDistance();
     this.toggleSubmit();
@@ -102,9 +292,9 @@ export class MapContainer extends Component {
     this.setState({
       submitted: !this.state.submitted,
     });
-  }
+  };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
@@ -112,18 +302,26 @@ export class MapContainer extends Component {
   };
 
   handleTravelMode = (travelMode) => {
-    return travelMode === 'DRIVING'
-            ? '🚗'
-            : travelMode === 'WALKING'
-            ? '🚶🏻‍♂️'
-            : travelMode === 'TRANSIT'
-            ? '🚎'
-            : '🚲'
-  }
+    return travelMode === "DRIVING"
+      ? "🚗"
+      : travelMode === "WALKING"
+      ? "🚶🏻‍♂️"
+      : travelMode === "TRANSIT"
+      ? "🚎"
+      : "🚲";
+  };
 
   render() {
-    const { error, options, origin, destination, distanceNum, duration, travelMode, submitted } = this.state;
-    const { data } = this.props;
+    const {
+      error,
+      options,
+      origin,
+      destination,
+      distanceNum,
+      duration,
+      travelMode,
+      submitted,
+    } = this.state;
     if (error) {
       return (
         <div>
@@ -134,7 +332,7 @@ export class MapContainer extends Component {
 
     const travelModeButtons = options.map((option, i) => (
       <input
-        className='travel-mode'
+        className="travel-mode"
         type="button"
         key={i}
         onClick={this.handleChange}
@@ -144,7 +342,7 @@ export class MapContainer extends Component {
     ));
 
     return (
-      <div className='container'>
+      <div className="container">
         <RouteDisplay
           google={this.props.google}
           destination={destination}
@@ -157,12 +355,11 @@ export class MapContainer extends Component {
           handleTravelMode={this.handleTravelMode}
         ></RouteDisplay>
         <TripsTable
-        data={data}
-        handleTravelMode={this.handleTravelMode}
-        updateOrigin={this.updateOrigin}
+          handleTravelMode={this.handleTravelMode}
+          updateOrigin={this.updateOrigin}
         />
 
-        <form className='form' onSubmit={this.handleSubmit}>
+        <form className="form" onSubmit={this.handleSubmit}>
           <h2>Origin</h2>
           <label>Enter an Origin Address:</label>
           <input
@@ -184,14 +381,14 @@ export class MapContainer extends Component {
           />
 
           <h2>Travel Mode</h2>
-          <div><label>Select Mode of Transportation:</label></div>
+          <div>
+            <label>Select Mode of Transportation:</label>
+          </div>
           {travelModeButtons}
           <div>
             <input type="submit" value=" 💾 Submit" />
           </div>
         </form>
-
-
       </div>
     );
   }
