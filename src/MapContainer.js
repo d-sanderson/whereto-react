@@ -1,43 +1,35 @@
 import React, { Component } from "react";
 import { GoogleApiWrapper } from "google-maps-react";
-
+import Form from "./Form";
 import TripsTable from "./TripsTable";
 import RouteDisplay from "./RouteDisplay";
 const APIKEY = `${process.env.REACT_APP_API_KEY}`;
 
+const MapContainer = (props) => {
 
-
-
-
-export class MapContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  const [dataz, setDataz] = React.useState({
       origin: "",
       destination: "",
       travelMode: "DRIVING",
       distance: null,
       distanceNum: 0,
       duration: null,
-      options: ["DRIVING", "WALKING", "TRANSIT", "BICYCLING"],
       error: false,
       submitted: false,
-    };
-  }
+    });
 
-  createTrip(origin, destination, distance, duration) {
-    const { travelMode } = this.state;
-    const trip = {
+  const createTrip = (origin, destination, distance, duration) => {
+    const { travelMode } = dataz
+    postTrip({
       origin: origin,
       destination: destination,
       travelMode: travelMode,
       distance: distance,
       duration: duration,
-    };
-    this.postTrip(trip);
+    });
   }
 
-  postTrip(trip) {
+  function postTrip(trip) {
     return fetch("http://localhost:3001/api/trips", {
       method: "post",
       body: JSON.stringify(trip),
@@ -45,12 +37,12 @@ export class MapContainer extends Component {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-    }).then(this.props.checkStatus);
+    }).then(props.checkStatus);
   }
 
-  calculateDistance = () => {
-    const { google } = this.props;
-    const { origin, destination, travelMode } = this.state;
+  const calculateDistance = () => {
+    const { google } = props;
+    const { origin, destination, travelMode } = dataz;
     const service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
@@ -68,19 +60,21 @@ export class MapContainer extends Component {
           let duration = res.rows[0].elements[0].duration.text;
           let originAddress = res.originAddresses.toString();
           let destinationAddress = res.destinationAddresses.toString();
-          this.setState({
+          setDataz({
+            ...dataz,
             distance: distance,
             distanceNum: distanceNum,
             duration: duration,
           });
-          this.createTrip(
+          createTrip(
             originAddress,
             destinationAddress,
             distance,
             duration
           );
         } else {
-          this.setState({
+          setDataz({
+            ...dataz,
             error: true,
           });
         }
@@ -88,34 +82,37 @@ export class MapContainer extends Component {
     );
   };
 
-  updateOrigin = (origin, destination) => {
-    this.setState({
-      submitted: !this.state.submitted,
+  const updateOrigin = (origin, destination) => {
+    setDataz({
+      ...dataz,
+      submitted: !dataz.submitted,
       origin: origin,
       destination: destination,
     });
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.calculateDistance();
-    this.toggleSubmit();
+    calculateDistance();
+    toggleSubmit();
   };
 
-  toggleSubmit = () => {
-    this.setState({
-      submitted: !this.state.submitted,
+  const toggleSubmit = () => {
+    setDataz({
+      ...dataz,
+      submitted: !dataz.submitted,
     });
   };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({
+    setDataz({
+      ...dataz,
       [name]: value,
     });
   };
 
-  handleTravelMode = (travelMode) => {
+  const handleTravelMode = (travelMode) => {
     return travelMode === "DRIVING"
       ? "🚗"
       : travelMode === "WALKING"
@@ -125,17 +122,16 @@ export class MapContainer extends Component {
       : "🚲";
   };
 
-  render() {
+
     const {
       error,
-      options,
       origin,
       destination,
       distanceNum,
       duration,
       travelMode,
       submitted,
-    } = this.state;
+    } = dataz;
     if (error) {
       return (
         <div>
@@ -143,22 +139,10 @@ export class MapContainer extends Component {
         </div>
       );
     }
-
-    const travelModeButtons = options.map((option, i) => (
-      <input
-        className="travel-mode"
-        type="button"
-        key={i}
-        onClick={this.handleChange}
-        value={option}
-        name="travelMode"
-      />
-    ));
-
     return (
       <div className="container">
         <RouteDisplay
-          google={this.props.google}
+          google={props.google}
           destination={destination}
           origin={origin}
           submitted={submitted}
@@ -166,47 +150,22 @@ export class MapContainer extends Component {
           distance={distanceNum}
           duration={duration}
           zoom={14}
-          handleTravelMode={this.handleTravelMode}
+          handleTravelMode={handleTravelMode}
         ></RouteDisplay>
         <TripsTable
-          handleTravelMode={this.handleTravelMode}
-          updateOrigin={this.updateOrigin}
+          handleTravelMode={handleTravelMode}
+          updateOrigin={updateOrigin}
         />
-
-        <form className="form" onSubmit={this.handleSubmit}>
-          <h2>Origin</h2>
-          <label>Enter an Origin Address:</label>
-          <input
-            type="text"
-            name="origin"
-            value={origin}
-            onChange={this.handleChange}
-            required
-          />
-
-          <h2>Destination</h2>
-          <label>Enter a Destination Address:</label>
-          <input
-            type="text"
-            name="destination"
-            value={destination}
-            onChange={this.handleChange}
-            required
-          />
-
-          <h2>Travel Mode</h2>
-          <div>
-            <label>Select Mode of Transportation:</label>
-          </div>
-          {travelModeButtons}
-          <div>
-            <input type="submit" value=" 💾 Submit" />
-          </div>
-        </form>
+        <Form
+          destination={destination}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+        />
       </div>
     );
   }
-}
+
+
 export default GoogleApiWrapper({
   apiKey: APIKEY,
 })(MapContainer);
