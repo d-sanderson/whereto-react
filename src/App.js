@@ -1,5 +1,5 @@
 import React from 'react';
-import MapContainer2 from './MapContainer'
+import MapContainer2 from './components/MapContainer'
 import './App.css'
 const App = () => {
   const checkStatus = (response) => {

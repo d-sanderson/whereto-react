@@ -11,7 +11,10 @@ const TripsTable = ({ handleTravelMode, updateOrigin }) => {
     getTrips((data) => setData(data.reverse()));
   };
 
-  const getTrips = (success) => {
+  const getTrips = async(success) => {
+    
+
+
     return fetch("http://localhost:3001/api/trips", {
       headers: {
         Accept: "application/json",
@@ -33,8 +36,6 @@ const TripsTable = ({ handleTravelMode, updateOrigin }) => {
       throw error;
     }
   };
-  console.log(data);
-
   const parseJSON = (response) => {
     return response.json();
   };

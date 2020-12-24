@@ -1,6 +1,7 @@
 import React from "react";
 
 const Form = ({ origin, handleSubmit, handleChange, destination }) => {
+  
   const travelModeButtons = [
     "DRIVING",
     "WALKING",
