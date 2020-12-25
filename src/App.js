@@ -1,5 +1,5 @@
 import React from 'react';
-import MapContainer2 from './components/MapContainer'
+import MapContainer from './components/MapContainer'
 import './App.css'
 const App = () => {
   const checkStatus = (response) => {
@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <MapContainer2 checkStatus={checkStatus}/>
+      <MapContainer checkStatus={checkStatus}/>
     </div>
   );
   }

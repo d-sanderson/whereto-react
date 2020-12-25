@@ -5,13 +5,16 @@ const TripsTable = ({ handleTravelMode, updateOrigin }) => {
   const [data, setData] = React.useState([]);
   const [open, setOpen] = useState(false);
   React.useEffect(() => {
-    fetchData();
-    async function fetchData(){
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    async function fetchData() {
       let trips = await getTrips();
-      setData(trips)
+      setData(trips.reverse());
     }
+    return () => clearInterval(interval);
   }, []);
-  const getTrips = async () => {
+  const getTrips = async() => {
     try {
       const data = await fetch("http://localhost:3001/api/trips", {
         headers: {
@@ -23,7 +26,6 @@ const TripsTable = ({ handleTravelMode, updateOrigin }) => {
     } catch (err) {
       throw err;
     }
-
   };
   const trips = data.map((trip, i) => (
     <TripRow

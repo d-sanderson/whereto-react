@@ -40,16 +40,15 @@ const MapContainer = (props) => {
     }).then(props.checkStatus);
   }
 
-  const calculateDistance = () => {
+  const calculateDistance = async() => {
     const { google } = props;
     const { origin, destination, travelMode } = dataz;
     const service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix(
-      {
-        origins: [origin],
-        destinations: [destination],
-        travelMode: travelMode,
-      },
+    service.getDistanceMatrix(      {
+      origins: [origin],
+      destinations: [destination],
+      travelMode: travelMode,
+    },
       (res, status) => {
         let statCheck = res.rows[0].elements[0].status;
         if (statCheck === "ZERO_RESULTS") return;
@@ -94,15 +93,12 @@ const MapContainer = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     calculateDistance();
-    toggleSubmit();
-  };
-
-  const toggleSubmit = () => {
     setDataz({
       ...dataz,
-      submitted: !dataz.submitted,
+      submitted: true,
     });
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

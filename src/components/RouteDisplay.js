@@ -1,22 +1,21 @@
-
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import CountUp from 'react-countup';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import CountUp from "react-countup";
 const mapStyles = {
   map: {
-    border: '1px solid black',
-    width: '500px',
-    height: '300px',
-    zIndex: '-1'
+    border: "1px solid black",
+    width: "500px",
+    height: "300px",
+    zIndex: "-1",
   },
 };
 
 export class RouteDisplay extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       miles: false,
-    }
+    };
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.submitted !== prevProps.submitted) {
@@ -39,9 +38,13 @@ export class RouteDisplay extends Component {
           travelMode: travelMode,
         },
         (response, status) => {
-          status === 'OK'
+          status === "OK"
             ? directionsRenderer.setDirections(response)
-            : window.alert('Directions request failed due to ' + status + '. Record not saved, try again.');
+            : window.alert(
+                "Directions request failed due to " +
+                  status +
+                  ". Record not saved, try again."
+              );
         }
       );
 
@@ -66,36 +69,42 @@ export class RouteDisplay extends Component {
 
   render() {
     const style = Object.assign({}, mapStyles.map);
-    const { distance, duration, submitted, travelMode, handleTravelMode } = this.props;
+    const {
+      distance,
+      duration,
+      submitted,
+      travelMode,
+      handleTravelMode,
+    } = this.props;
     const { miles } = this.state;
     return (
       <div>
         <div style={style} ref="map">
           Enter an Origin and Destination.
         </div>
-        {submitted ?
-        <div className='dashboard'>
+
+        <div className="dashboard">
           {handleTravelMode(travelMode)}
 
-         {!miles ?
-            <div>
-              <CountUp end={distance} /> <span>km</span>
-            </div>:
-            <div>
-              <CountUp end={distance * 0.621371} /> <span>mi</span>
-            </div>}
+          <div>
+            <CountUp end={distance} /> <span>km</span>
+          </div>
+          <div>
+            <CountUp end={distance * 0.621371} /> <span>mi</span>
+          </div>
 
           <input
-            className='convert-btn'
-            type='button'
-            value={miles ? '>>KM' : '>>MI'}
-            onClick={()=>this.setState({
-              miles: !miles
-            })}
+            className="convert-btn"
+            type="button"
+            value={miles ? ">>KM" : ">>MI"}
+            onClick={() =>
+              this.setState({
+                miles: !miles,
+              })
+            }
           />
           <h4>⏱ {duration}</h4>
-        </div>: ''
-          }
+        </div>
       </div>
     );
   }
@@ -110,6 +119,5 @@ RouteDisplay.defaultProps = {
   },
   visible: true,
   distance: 0,
-  duration: 0
+  duration: 0,
 };
-

@@ -1,13 +1,13 @@
 import React from "react";
 
 const Form = ({ origin, handleSubmit, handleChange, destination }) => {
-  
-  const travelModeButtons = [
+  const [travelModes, setTravelModes] = React.useState([
     "DRIVING",
     "WALKING",
     "TRANSIT",
     "BICYCLING",
-  ].map((option, i) => (
+  ]);
+  const travelModeButtons = travelModes.map((option, i) => (
     <input
       className="travel-mode"
       type="button"
@@ -17,6 +17,9 @@ const Form = ({ origin, handleSubmit, handleChange, destination }) => {
       name="travelMode"
     />
   ));
+
+  const [org, setOrg] = React.useState('')
+  const [dest, setDest] = React.useState('')
 
   return (
     <form className="form" onSubmit={handleSubmit}>
